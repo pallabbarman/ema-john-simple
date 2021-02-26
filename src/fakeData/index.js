@@ -4,13 +4,13 @@ import laptops from './laptop';
 
 const fakeData = [...androids, ...cameras, ...laptops];
 
-
-const shuffle = a => {
-    for (let i = a.length; i; i--) {
-        let j = Math.floor(Math.random() * i);
-        [a[i - 1], a[j]] = [a[j], a[i - 1]];
+const shuffle = (a) => {
+    for (let i = a.length; i; i -= 1) {
+        const j = Math.floor(Math.random() * i);
+        const b = a;
+        [b[i - 1], b[j]] = [b[j], b[i - 1]];
     }
-}
+};
 
 shuffle(fakeData);
 
