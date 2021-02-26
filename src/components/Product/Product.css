@@ -18,4 +18,5 @@
   height: 30px;
   border: 1px solid darkgoldenrod;
   border-radius: 5px;
+  cursor: pointer;
 }
