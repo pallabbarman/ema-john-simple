@@ -25,9 +25,6 @@ function App() {
                     <Route exact path="/">
                         <Shop />
                     </Route>
-                    <Route path="/ema-john-simple">
-                        <Shop />
-                    </Route>
                     <Route path="/product/:productKey">
                         <ProductDetail />
                     </Route>
