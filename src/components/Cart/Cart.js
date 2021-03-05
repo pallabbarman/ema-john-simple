@@ -1,8 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 const Cart = (props) => {
-    const { cart } = props;
+    const { cart, children } = props;
     const Price = cart.reduce((total, product) => total + product.price * product.quantity, 0);
 
     let shipping = 0;
@@ -34,11 +33,7 @@ const Cart = (props) => {
             </p>
             <p>Total Price: {formatNumber(totalPrice)}</p>
             <br />
-            <Link to="/review">
-                <button type="button" className="cart-button">
-                    Review Order
-                </button>
-            </Link>
+            {children}
         </div>
     );
 };
