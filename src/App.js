@@ -18,8 +18,8 @@ function App() {
     const [loggedInUser, setLoggedInUser] = useState({});
     return (
         <userContext.Provider value={[loggedInUser, setLoggedInUser]}>
-            <Header />
             <Router>
+                <Header />
                 <Switch>
                     <Route path="/shop">
                         <Shop />
