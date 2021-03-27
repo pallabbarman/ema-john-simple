@@ -1,8 +1,11 @@
-import React from 'react';
+import React from "react";
 
 const Cart = (props) => {
     const { cart, children } = props;
-    const Price = cart.reduce((total, product) => total + product.price * product.quantity, 0);
+    const Price = cart.reduce(
+        (total, product) => total + product.price * product.quantity || 1,
+        0
+    );
 
     let shipping = 0;
     if (Price > 99) {
