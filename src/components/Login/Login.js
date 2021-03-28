@@ -1,29 +1,29 @@
-import { useContext, useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
-import { userContext } from '../../App';
+import { useContext, useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
+import { userContext } from "../../App";
 import {
     createUserEmailAndPassword,
     handleGoogleSignIn,
     handleSignOut,
     initializeLoginFramework,
     signInWithEmailAndPassword,
-} from './LoginManager';
+} from "./LoginManager";
 
 function Login() {
     const [newUser, setNewUser] = useState(false);
     const [user, setUser] = useState({
         isSignIn: false,
-        name: '',
-        email: '',
-        password: '',
-        photo: '',
+        name: "",
+        email: "",
+        password: "",
+        photo: "",
     });
 
     initializeLoginFramework();
-    const [loggedInUser ,setLoggedInUser] = useContext(userContext);
+    const [loggedInUser, setLoggedInUser] = useContext(userContext);
     const history = useHistory();
     const location = useLocation();
-    const { from } = location.state || { from: { pathname: '/' } };
+    const { from } = location.state || { from: { pathname: "/" } };
 
     const handleResponse = (res, redirect) => {
         setUser(res);
@@ -47,24 +47,30 @@ function Login() {
 
     const handleSubmit = (e) => {
         if (newUser && user.email && user.password) {
-            createUserEmailAndPassword(user.name, user.email, user.password).then((res) => {
+            createUserEmailAndPassword(
+                user.name,
+                user.email,
+                user.password
+            ).then((res) => {
                 handleResponse(res, true);
             });
         }
         if (!newUser && user.email && user.password) {
-            signInWithEmailAndPassword(user.email, user.password).then((res) => {
-                handleResponse(res, true);
-            });
+            signInWithEmailAndPassword(user.email, user.password).then(
+                (res) => {
+                    handleResponse(res, true);
+                }
+            );
         }
         e.preventDefault();
     };
 
     const handleBlur = (event) => {
         let isFieldValid = true;
-        if (event.target.name === 'email') {
+        if (event.target.name === "email") {
             isFieldValid = /\S+@\S+\.\S+/.test(event.target.value);
         }
-        if (event.target.name === 'password') {
+        if (event.target.name === "password") {
             const isPasswordValid = event.target.value.length > 6;
             const passwordHasNumber = /\d{1}/.test(event.target.value);
             isFieldValid = isPasswordValid && passwordHasNumber;
@@ -77,14 +83,14 @@ function Login() {
     };
 
     return (
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: "center" }}>
             {user.isSignIn ? (
                 <button onClick={signOut} type="button">
                     Sign Out
                 </button>
             ) : (
                 <button onClick={googleSignIn} type="button">
-                    Sign In
+                    Sign In with Google
                 </button>
             )}
             <br />
@@ -99,12 +105,22 @@ function Login() {
             <h1>Our own Authentication</h1>
 
             <label htmlFor="newUser">
-                Sign Up{' '}
-                <input type="checkbox" onChange={() => setNewUser(!newUser)} name="newUser" id="" />
+                Sign Up{" "}
+                <input
+                    type="checkbox"
+                    onChange={() => setNewUser(!newUser)}
+                    name="newUser"
+                    id=""
+                />
             </label>
             <form onSubmit={handleSubmit}>
                 {newUser && (
-                    <input type="text" name="name" onBlur={handleBlur} placeholder="Your Name" />
+                    <input
+                        type="text"
+                        name="name"
+                        onBlur={handleBlur}
+                        placeholder="Your Name"
+                    />
                 )}
                 <br />
                 <input
@@ -123,12 +139,12 @@ function Login() {
                     required
                 />
                 <br />
-                <input type="submit" value={newUser ? 'Sign Up' : 'Sign In'} />
+                <input type="submit" value={newUser ? "Sign Up" : "Sign In"} />
             </form>
-            <p style={{ color: 'red' }}>{user.error}</p>
+            <p style={{ color: "red" }}>{user.error}</p>
             {user.success && (
-                <p style={{ color: 'green' }}>
-                    User {newUser ? 'Account create' : 'Logged In'} successfully
+                <p style={{ color: "green" }}>
+                    User {newUser ? "Account create" : "Logged In"} successfully
                 </p>
             )}
         </div>
