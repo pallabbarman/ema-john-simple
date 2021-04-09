@@ -1,6 +1,7 @@
 /* eslint-disable import/no-cycle */
 import { createContext, useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import Header from './components/Header/Header';
 import Inventory from './components/Inventory/Inventory';

@@ -1,11 +1,21 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import firebaseConfig from './firebase.config';
+import firebase from "firebase/app";
+import "firebase/auth";
+import firebaseConfig from "./firebase.config";
 
 export const initializeLoginFramework = () => {
     if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
     }
+};
+
+const setUserToken = () => {
+    firebase
+        .auth()
+        .currentUser.getIdToken(/* forceRefresh */ true)
+        .then(function (idToken) {
+            sessionStorage.setItem("token", idToken);
+        })
+        .catch(function (error) {});
 };
 
 export const handleGoogleSignIn = () => {
@@ -22,6 +32,7 @@ export const handleGoogleSignIn = () => {
                 photo: photoURL,
                 success: true,
             };
+            setUserToken();
             return signInUser;
         })
         .catch((err) => {
@@ -37,10 +48,10 @@ export const handleSignOut = () =>
         .then(() => {
             const signOutUser = {
                 isSignIn: false,
-                name: '',
-                photo: '',
-                email: '',
-                error: '',
+                name: "",
+                photo: "",
+                email: "",
+                error: "",
                 success: false,
             };
             return signOutUser;
@@ -66,7 +77,7 @@ export const createUserEmailAndPassword = (name, email, password) =>
         .createUserWithEmailAndPassword(email, password)
         .then((res) => {
             const newUserInfo = res.user;
-            newUserInfo.error = '';
+            newUserInfo.error = "";
             newUserInfo.success = true;
             updateUserName(name);
             return newUserInfo;
@@ -84,7 +95,7 @@ export const signInWithEmailAndPassword = (email, password) =>
         .signInWithEmailAndPassword(email, password)
         .then((res) => {
             const newUserInfo = res.user;
-            newUserInfo.error = '';
+            newUserInfo.error = "";
             newUserInfo.success = true;
             return newUserInfo;
         })

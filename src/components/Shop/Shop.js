@@ -7,16 +7,21 @@ import {
 import Cart from "../Cart/Cart";
 import Product from "../Product/Product";
 import "./Shop.css";
+import GridLoader from "react-spinners/GridLoader";
 
 const Shop = () => {
     const [products, setProducts] = useState([]);
     const [cart, setCart] = useState([]);
+    const [search, setSearch] = useState("");
 
     useEffect(() => {
-        fetch("https://web-ema-john-server.herokuapp.com/products")
+        fetch(
+            "https://web-ema-john-server.herokuapp.com/products?search=" +
+                search
+        )
             .then((res) => res.json())
             .then((data) => setProducts(data));
-    }, []);
+    }, [search]);
 
     useEffect(() => {
         const savedCart = getDatabaseCart();
@@ -29,6 +34,10 @@ const Shop = () => {
             .then((res) => res.json())
             .then((data) => setCart(data));
     }, []);
+
+    const handleSearch = (event) => {
+        setSearch(event.target.value);
+    };
 
     const handleAddProduct = (product) => {
         const toBeAddedKey = product.key;
@@ -52,6 +61,18 @@ const Shop = () => {
     return (
         <div className="shop-container">
             <div className="product-container">
+                <input
+                    style={{
+                        margin: "20px",
+                        padding: "10px",
+                        width: "30%",
+                    }}
+                    type="text"
+                    onBlur={handleSearch}
+                    className="form-control"
+                    placeholder="Search somethings"
+                />
+                {products.length === 0 && <GridLoader></GridLoader>}
                 {products.map((product) => (
                     <Product
                         showAddToCart
